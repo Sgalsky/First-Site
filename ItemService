@@ -1,0 +1,17 @@
+package sberserk.service;
+
+import sberserk.model.Item;
+
+import java.util.List;
+
+public interface ItemService {
+    List<Item> getAll();
+
+    Item getById(long id);
+
+    Item create(String name, int price, int avalable, String description);
+
+    void update(Item item);
+
+    boolean delete(long id);
+}

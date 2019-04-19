@@ -1,0 +1,44 @@
+package sberserk.dao;
+
+import sberserk.model.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+
+public enum InMemoryItems implements ItemDao {
+    INSTANCE;
+
+    private AtomicLong idGenerator = new AtomicLong();
+    private Map<Long, Item> allItems = new HashMap<>();
+
+    @Override
+    public List<List> getAll() {
+        return new ArrayList<>(allItems.values());
+    }
+
+    @Override
+    public Item getById(long id) {
+        return allItems.get(id);
+    }
+
+    @Override
+    public Item create(String name, int price, int avalable, String description) {
+        Item item = new Item(idGenerator.incrementAndGet(), name, price, avalable, description);
+        allItems.put(item.getId(), item);
+        return item;
+    }
+
+    @Override
+    public void update(Item item) {
+        allItems.put(item.getId(), item);
+    }
+
+    @Override
+    public boolean delete(long id) {
+        Item remove = allItems.remove(id);
+        return remove != null;
+    }
+}
